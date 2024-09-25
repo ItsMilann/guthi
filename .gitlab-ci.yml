@@ -1,0 +1,50 @@
+stages:
+  - release
+  - deploy_dev
+  - deploy_staging
+
+release:
+  image: node:buster-slim
+  stage: release
+  before_script:
+    - apt-get update && apt-get install -y --no-install-recommends git-core ca-certificates
+    - npm install -g semantic-release @semantic-release/gitlab @semantic-release/changelog conventional-changelog-conventionalcommits @semantic-release/commit-analyzer @semantic-release/git
+  script:
+    - semantic-release
+  tags:
+    - dev-docker-runner-tag
+  only:
+    - main
+    - develop
+
+deploy-develop:
+  stage: deploy_dev
+  variables:
+    SERVER: "$DEV_SERVER"
+  before_script:
+    - echo "Deploying in Development Server "
+  script:
+    - if [[ "$CI_COMMIT_MESSAGE" =~ ^\[ib-init\] ]]; then export DEPLOY=hard; fi
+    - sh ~/astra
+  after_script:
+    - echo 'dev deploy test..'
+  tags:
+    - dev-runner-tag
+  only:
+    - develop
+
+deploy_staging:
+  stage: deploy_staging
+  variables:
+    SERVER: "$STAGING_SERVER"
+  before_script:
+    - echo "Deploying in Staging Server "
+  script:
+    - sh ~/astra
+  after_script:
+    - echo 'new staging completed..'
+  tags:
+    - staging-runner-tag
+  only:
+    - main
+  when: manual

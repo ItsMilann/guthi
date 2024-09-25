@@ -1,0 +1,16 @@
+libpangocairo-1.0
+libpq-dev
+python-dev-is-python3
+make
+cmake
+wget
+binutils
+libproj-dev
+gettext
+gcc
+libc-dev
+nano
+curl
+git
+fonts-sil-annapurna
+

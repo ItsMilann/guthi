@@ -1,0 +1,864 @@
+<!DOCTYPE html>
+
+<head>
+    <meta http-equiv="Content-type" content="text/html; charset=utf-8" />
+    <meta charset="UTF-8" />
+    <!-- <meta http-equiv="X-UA-Compatible" content="IE=edge"> -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sifarish Report</title>
+</head>
+
+<body style="margin: 0; padding: 0;">
+    <style>
+        *,
+        ::after,
+        ::before {
+            box-sizing: border-box;
+        }
+
+        h5 {
+            margin-top: 0;
+            margin-bottom: .5rem;
+        }
+
+        a {
+            color: #007bff;
+            text-decoration: none;
+            background-color: transparent;
+        }
+
+        a:hover {
+            color: #0056b3;
+            text-decoration: underline;
+        }
+
+        svg {
+            overflow: hidden;
+            vertical-align: middle;
+        }
+
+        table {
+            border-collapse: collapse;
+        }
+
+        th {
+            text-align: inherit;
+        }
+
+        select {
+            text-transform: none;
+        }
+
+        select {
+            word-wrap: normal;
+        }
+
+        h5 {
+            margin-bottom: .5rem;
+            font-weight: 500;
+            line-height: 1.2;
+        }
+
+        h5 {
+            font-size: 1.25rem;
+        }
+
+        kbd {
+            padding: .2rem .4rem;
+            font-size: 87.5%;
+            color: #fff;
+            background-color: #212529;
+            border-radius: .2rem;
+        }
+
+        .row {
+            display: -ms-flexbox;
+            display: flex;
+            -ms-flex-wrap: wrap;
+            flex-wrap: wrap;
+            margin-right: -15px;
+            margin-left: -15px;
+        }
+
+        .col-3,
+        .col-md-4 {
+            position: relative;
+            width: 100%;
+            padding-right: 15px;
+            padding-left: 15px;
+        }
+
+        .col-3 {
+            -ms-flex: 0 0 25%;
+            flex: 0 0 25%;
+            max-width: 25%;
+        }
+
+        @media (min-width:768px) {
+            .col-md-4 {
+                -ms-flex: 0 0 33.333333%;
+                flex: 0 0 33.333333%;
+                max-width: 33.333333%;
+            }
+        }
+
+        .table {
+            width: 100%;
+            margin-bottom: 1rem;
+            color: #212529;
+        }
+
+        .table th {
+            padding: .75rem;
+            vertical-align: top;
+            border-top: 1px solid #dee2e6;
+        }
+
+        .table thead th {
+            vertical-align: bottom;
+            border-bottom: 2px solid #dee2e6;
+        }
+
+        .table-sm th {
+            padding: .3rem;
+        }
+
+        .form-control {
+            display: block;
+            width: 100%;
+            height: calc(1.5em + .75rem + 2px);
+            padding: .375rem .75rem;
+            font-size: 1rem;
+            font-weight: 400;
+            line-height: 1.5;
+            color: #495057;
+            background-color: #fff;
+            background-clip: padding-box;
+            border: 1px solid #ced4da;
+            border-radius: .25rem;
+            transition: border-color .15s ease-in-out, box-shadow .15s ease-in-out;
+        }
+
+        @media (prefers-reduced-motion:reduce) {
+            .form-control {
+                transition: none;
+            }
+        }
+
+        .form-control::-ms-expand {
+            background-color: transparent;
+            border: 0;
+        }
+
+        .form-control:-moz-focusring {
+            color: transparent;
+            text-shadow: 0 0 0 #495057;
+        }
+
+        .form-control:focus {
+            color: #495057;
+            background-color: #fff;
+            border-color: #80bdff;
+            outline: 0;
+            box-shadow: 0 0 0 .2rem rgba(0, 123, 255, .25);
+        }
+
+        .form-control::-webkit-input-placeholder {
+            color: #6c757d;
+            opacity: 1;
+        }
+
+        .form-control::-moz-placeholder {
+            color: #6c757d;
+            opacity: 1;
+        }
+
+        .form-control:-ms-input-placeholder {
+            color: #6c757d;
+            opacity: 1;
+        }
+
+        .form-control::-ms-input-placeholder {
+            color: #6c757d;
+            opacity: 1;
+        }
+
+        .form-control::placeholder {
+            color: #6c757d;
+            opacity: 1;
+        }
+
+        .form-control:disabled {
+            background-color: #e9ecef;
+            opacity: 1;
+        }
+
+        .justify-content-between {
+            -ms-flex-pack: justify !important;
+            justify-content: space-between !important;
+        }
+
+        .mb-2 {
+            margin-bottom: .5rem !important;
+        }
+
+        .mt-3 {
+            margin-top: 1rem !important;
+        }
+
+        .mb-5 {
+            margin-bottom: 3rem !important;
+        }
+
+        @media print {
+
+            *,
+            ::after,
+            ::before {
+                text-shadow: none !important;
+                box-shadow: none !important;
+            }
+
+            a:not(.btn) {
+                text-decoration: underline;
+            }
+
+            thead {
+                display: table-header-group;
+            }
+
+            tr {
+                page-break-inside: avoid;
+            }
+
+            .table {
+                border-collapse: collapse !important;
+            }
+
+            .table th {
+                background-color: #fff !important;
+            }
+        }
+
+        /*! CSS Used from: https://sifarish-v2.ideabreed.net/static/css/main.76fff5fb.chunk.css */
+        h5 {
+            margin: 0;
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        a {
+            color: inherit;
+            text-decoration: none !important;
+        }
+
+        h5 {
+            margin-bottom: 0;
+        }
+
+        .table th {
+            border-top: none;
+            padding: 0 3px;
+            vertical-align: middle;
+        }
+
+        .table th {
+            background-color: #fafafa;
+        }
+
+        .table {
+            width: 100%;
+            max-width: 100%;
+            margin-bottom: 20px;
+        }
+
+        select {
+            float: left;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+        }
+
+        a,
+        div,
+        span,
+        table,
+        tbody,
+        th,
+        thead,
+        tr {
+            margin: 0;
+            padding: 0;
+            border: 0;
+            font-size: 100%;
+            font: inherit;
+            vertical-align: baseline;
+        }
+
+        table {
+            border-collapse: collapse;
+            border-spacing: 0;
+        }
+
+        a {
+            color: #007fac;
+        }
+
+        a:hover {
+            color: #333;
+        }
+
+        thead th {
+            vertical-align: middle !important;
+            font-weight: 700;
+        }
+
+        .red-shade {
+            background-color: #ad4848 !important;
+            color: #fff;
+            margin-left: 5px;
+        }
+
+        .main-content {
+            padding-left: 0;
+            padding-right: 0;
+            /* padding-top: 80px; */
+            width: 100%;
+            position: relative;
+            min-height: calc(100vh - 60px);
+        }
+
+        .dashboard-stats-box {
+            background-color: #6677ef;
+            box-shadow: 0 3px 6px 0 rgba(0, 0, 0, .1);
+            padding: 30px 20px 20px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin: 1rem;
+            color: #fff;
+        }
+
+        .dashboard-stats-box .dashboard-stats-box-icon svg {
+            width: 1rem;
+            height: 1rem;
+        }
+
+        .dashboard-stats-box span {
+            position: absolute;
+            top: -25px;
+            left: 45%;
+            background-color: #fff;
+            color: #6677ef !important;
+            border-radius: 50%;
+            box-shadow: 0 3px 6px 0 rgba(0, 0, 0, .1);
+            height: 50px;
+            width: 50px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+            font-weight: 600;
+        }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        *,
+        ::after,
+        ::before {
+            box-sizing: border-box;
+        }
+
+        h2,
+        h3,
+        h6 {
+            margin-top: 0;
+            margin-bottom: .5rem;
+        }
+
+        strong {
+            font-weight: bolder;
+        }
+
+        a {
+            color: #007bff;
+            text-decoration: none;
+            background-color: transparent;
+        }
+
+        a:hover {
+            color: #0056b3;
+            text-decoration: underline;
+        }
+
+        img {
+            vertical-align: middle;
+            border-style: none;
+        }
+
+        button {
+            border-radius: 0;
+        }
+
+        button:focus {
+            outline: 1px dotted;
+            outline: 5px auto -webkit-focus-ring-color;
+        }
+
+        button {
+            overflow: visible;
+        }
+
+        button {
+            text-transform: none;
+        }
+
+        [type=button],
+        button {
+            -webkit-appearance: button;
+        }
+
+        [type=button]::-moz-focus-inner,
+        button::-moz-focus-inner {
+            padding: 0;
+            border-style: none;
+        }
+
+        h2,
+        h3,
+        h6 {
+            margin-bottom: .5rem;
+            font-weight: 500;
+            line-height: 1.2;
+        }
+
+        h2 {
+            font-size: 2rem;
+        }
+
+        h3 {
+            font-size: 1.75rem;
+        }
+
+        h6 {
+            font-size: 1rem;
+        }
+
+        .row {
+            display: -ms-flexbox;
+            display: flex;
+            -ms-flex-wrap: wrap;
+            flex-wrap: wrap;
+            margin-right: -15px;
+            margin-left: -15px;
+        }
+
+        .col-12 {
+            position: relative;
+            width: 100%;
+            padding-right: 15px;
+            padding-left: 15px;
+        }
+
+        .col-12 {
+            -ms-flex: 0 0 100%;
+            flex: 0 0 100%;
+            max-width: 100%;
+        }
+
+        .btn {
+            display: inline-block;
+            font-weight: 400;
+            color: #212529;
+            text-align: center;
+            vertical-align: middle;
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
+            background-color: transparent;
+            border: 1px solid transparent;
+            padding: .375rem .75rem;
+            font-size: 1rem;
+            line-height: 1.5;
+            border-radius: .25rem;
+            transition: color .15s ease-in-out, background-color .15s ease-in-out, border-color .15s ease-in-out, box-shadow .15s ease-in-out;
+        }
+
+        @media (prefers-reduced-motion:reduce) {
+            .btn {
+                transition: none;
+            }
+        }
+
+        .btn:hover {
+            color: #212529;
+            text-decoration: none;
+        }
+
+        .btn:focus {
+            outline: 0;
+            box-shadow: 0 0 0 .2rem rgba(0, 123, 255, .25);
+        }
+
+        .btn:disabled {
+            opacity: .65;
+        }
+
+        .btn-secondary {
+            color: #fff;
+            background-color: #6c757d;
+            border-color: #6c757d;
+        }
+
+        .btn-secondary:hover {
+            color: #fff;
+            background-color: #5a6268;
+            border-color: #545b62;
+        }
+
+        .btn-secondary:focus {
+            color: #fff;
+            background-color: #5a6268;
+            border-color: #545b62;
+            box-shadow: 0 0 0 .2rem rgba(130, 138, 145, .5);
+        }
+
+        .btn-secondary:disabled {
+            color: #fff;
+            background-color: #6c757d;
+            border-color: #6c757d;
+        }
+
+        .btn-success {
+            color: #fff;
+            background-color: #28a745;
+            border-color: #28a745;
+        }
+
+        .btn-success:hover {
+            color: #fff;
+            background-color: #218838;
+            border-color: #1e7e34;
+        }
+
+        .btn-success:focus {
+            color: #fff;
+            background-color: #218838;
+            border-color: #1e7e34;
+            box-shadow: 0 0 0 .2rem rgba(72, 180, 97, .5);
+        }
+
+        .btn-success:disabled {
+            color: #fff;
+            background-color: #28a745;
+            border-color: #28a745;
+        }
+
+        .btn-lg {
+            padding: .5rem 1rem;
+            font-size: 1.25rem;
+            line-height: 1.5;
+            border-radius: .3rem;
+        }
+
+        .card {
+            position: relative;
+            display: -ms-flexbox;
+            display: flex;
+            -ms-flex-direction: column;
+            flex-direction: column;
+            min-width: 0;
+            word-wrap: break-word;
+            background-color: #fff;
+            background-clip: border-box;
+            border: 1px solid rgba(0, 0, 0, .125);
+            border-radius: .25rem;
+        }
+
+        .card-body {
+            -ms-flex: 1 1 auto;
+            flex: 1 1 auto;
+            min-height: 1px;
+            padding: 1.25rem;
+        }
+
+        .mb-2 {
+            margin-bottom: .5rem !important;
+        }
+
+        .mb-3 {
+            margin-bottom: 1rem !important;
+        }
+
+        .p-3 {
+            padding: 1rem !important;
+        }
+
+        .text-center {
+            text-align: center !important;
+        }
+
+        .text-primary {
+            color: #007bff !important;
+        }
+
+        @media print {
+
+            *,
+            ::after,
+            ::before {
+                text-shadow: none !important;
+                box-shadow: none !important;
+            }
+
+            a:not(.btn) {
+                text-decoration: underline;
+            }
+
+            img {
+                page-break-inside: avoid;
+            }
+
+            h2,
+            h3 {
+                orphans: 3;
+                widows: 3;
+            }
+
+            h2,
+            h3 {
+                page-break-after: avoid;
+            }
+        }
+
+        /*! CSS Used from: https://sifarish-v2.ideabreed.net/static/css/main.76fff5fb.chunk.css */
+        h2,
+        h3 {
+            margin: 0;
+        }
+
+        .btn-secondary {
+            background-color: #333;
+            border: 1px solid #333;
+            color: #fff;
+        }
+
+        .btn-secondary:active,
+        .btn-secondary:focus,
+        .btn-secondary:hover {
+            order: 1px solid #333 !important;
+            background-color: #333 !important;
+            box-shadow: none !important;
+        }
+
+        .btn-success {
+            background-color: #0c8a72;
+            border: 1px solid #0c8a72;
+            color: #fff;
+        }
+
+        .btn-success:active,
+        .btn-success:focus,
+        .btn-success:hover {
+            border: 1px solid #0c8a72 !important;
+            background-color: #0c8a72 !important;
+            box-shadow: none !important;
+        }
+
+        .btn-lg {
+            padding: .5rem 1rem;
+            font-size: 1.25rem;
+            line-height: 1.5;
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        a {
+            color: inherit;
+            text-decoration: none !important;
+        }
+
+        img {
+            margin: 0;
+            padding: 0;
+            list-style: none;
+            border: none;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+        }
+
+        a,
+        div {
+            margin: 0;
+            padding: 0;
+            border: 0;
+            font-size: 100%;
+            font: inherit;
+            vertical-align: baseline;
+        }
+
+        a {
+            color: #007fac;
+        }
+
+        a:hover {
+            color: #333;
+        }
+
+        .brand_red {
+            color: #ad4848 !important;
+        }
+
+        .brand_primary {
+            color: #6677ef !important;
+        }
+
+        .card {
+            box-shadow: 0 4px 8px rgba(0, 0, 0, .03);
+            border-radius: 3px;
+            border: none;
+            position: relative;
+            margin-bottom: 30px;
+        }
+
+        .card {
+            background-color: #fff;
+        }
+
+        .logo {
+            margin-top: 20px;
+            width: 80px;
+        }
+
+        /*! CSS Used from: Embedded */
+        .css-1de491f {
+            color: white;
+            transition: transform 200ms ease 0s;
+        }
+
+        .css-1de491f:hover {
+            transform: scale(1.05);
+        }
+
+        .css-148ncx3 {
+            color: white;
+        }
+
+        .css-148ncx3:hover {
+            color: white;
+        }
+    </style>
+
+
+    <div class="text-center mb-2"><img src="https://sifarish-v2.ideabreed.net/assets/images/nep_logo.png" alt="logo"
+            class="logo"></div>
+    <div class="text-center">
+        {% if 'Rural' in "{{nagarpalika.name_en}}" %}
+        <h6>गाउँ कार्यपालिकाको कार्यालय</h6>
+        {% else %}
+        <h6>नगर कार्यपालिकाको कार्यालय</h6>
+        {% endif %}
+        <h2 class="text-primary brand_primary"><strong>{{ nagarpalika.name_np | default: "बाँसगढी नगरपालिका" }}</strong></h2>
+        <h6>{{nagarpalika.address_np|default: "लुम्बिनी प्रदेश, नेपाल"}}</h6>
+    </div>
+    <h3 class="brand_red mb-3 text-center p-3"><strong>अनलाइन सिफारिश प्रणाली</strong></h3>
+    <div class="main-content">
+        <div class="justify-content-between row">
+            <div class="col-4">
+                वडा : {{ ward_number }}
+            </div>
+            <div class="col-4">
+                आ.व. : {{ fiscal_year }}
+            </div>
+        </div>
+        <div class="mt-3 mb-5 row justify-content-between">
+            <div class="col-3" style="background-color: #a6c7d3; padding: 1rem; border-radius: 5%;">
+                <div>
+                    <div class="col-4" style="text-align: center; margin-bottom: 5px;"><kbd class="red-shade">{{ total_applicants }}</kbd></div>
+                    <div class="col-8" style="text-align: center; margin-bottom: 5px;">निवेदकहरु</div>
+                </div>
+            </div>
+            <div class="col-3" style="background-color: #a6c7d3; padding: 1rem; border-radius: 5%;">
+                <div>
+                    <div class="col-4" style="text-align: center; margin-bottom: 5px;"><kbd class="red-shade">{{ total_sifarish }}</kbd></div>
+                    <div style="text-align: center; margin-bottom: 5px;">जम्मा सिफारिस</div>
+                </div>
+            </div>
+            <div class="col-4" style="background-color: #a6c7d3; padding: 1rem; border-radius: 5%;">
+                <div>
+                    <div class="col-4" style="text-align: center; margin-bottom: 5px;"><kbd class="red-shade">{{ total_papers }}</kbd></div>
+                    <div class="col-8" style="text-align: center; margin-bottom: 5px;">जारी भएका सिफारिस</div>
+                </div>
+            </div>
+            <div class="col-3" style="background-color: #a6c7d3; padding: 1rem; border-radius: 5%;">
+                <div>
+                    <div class="col-4" style="text-align: center; margin-bottom: 5px;">
+                        <kbd class="red-shade">रु.{{ total_amount }}/-</kbd></div>
+                    <div class="col-8" style="text-align: center; margin-bottom: 5px;">जम्मा रकम</div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <h5 class="mb-2">नयाँ निबेदनहरु </h5>
+    <table style="border: 1px solid black; border-collapse:collapse ; padding: 5px;">
+        <thead>
+            <tr>
+                <th style="font-size:12px;border: 1px solid black; border-collapse:collapse ; padding: 5px;">क्र.सं</th>
+                <th style="font-size:12px;border: 1px solid black; border-collapse:collapse ; padding: 5px;">निबेदनको किसिम</th>
+                <th style="font-size:12px;border: 1px solid black; border-collapse:collapse ; padding: 5px;">शिर्षक</th>
+                <th style="font-size:12px;border: 1px solid black; border-collapse:collapse ; padding: 5px;">जारी मिति</th>
+                <th style="font-size:12px;border: 1px solid black; border-collapse:collapse ; padding: 5px;">निवेदकको नाम</th>
+                <th style="font-size:12px;border: 1px solid black; border-collapse:collapse ; padding: 5px;">वडा</th>
+                <th style="font-size:12px;border: 1px solid black; border-collapse:collapse ; padding: 5px;">दस्तुर</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for each in second_table_data %}
+            <tr>
+                <td style="font-size:12px;border: 1px solid black; border-collapse:collapse ; padding: 5px;">{{ forloop.counter }}</td>
+                <td style="font-size:12px;border: 1px solid black; border-collapse:collapse ; padding: 5px;">{{ each.extra.paper_category }}</td>
+                <td style="font-size:12px;border: 1px solid black; border-collapse:collapse ; padding: 5px;">{{ each.extra.paper_title }}</td>
+                <td style="font-size:12px;border: 1px solid black; border-collapse:collapse ; padding: 5px;">{{ each.extra.created_at_date }}</td>
+                <td style="font-size:12px;border: 1px solid black; border-collapse:collapse ; padding: 5px;">
+                    {{ each.extra.fullname_np }}</td>
+                <td style="font-size:12px;border: 1px solid black; border-collapse:collapse ; padding: 5px;">{{ each.extra.ward }}</td>
+                <td style="font-size:12px;border: 1px solid black; border-collapse:collapse ; padding: 5px;">Rs.{{ each.extra.charge }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    </div>
+</body>
+
+
+
+
+</html>
