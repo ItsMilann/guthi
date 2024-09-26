@@ -12,7 +12,7 @@ router.register("profile", profiles.ProfileViewSet)
 router.register("features", branches.FeatureViewSet)
 router.register("branches", branches.BranchViewSet)
 router.register("fiscal-year", branches.FiscalYearViewSet)
-router.register("sakha", branches.SakhaViewSet)
+router.register("departments", branches.SakhaViewSet)
 
 router.register("paper", template_viewset.PaperViewSet)
 
