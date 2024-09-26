@@ -9,7 +9,7 @@ class User(AbstractUser):
     username = None
     email = models.EmailField(unique=True)
     phone = models.CharField(max_length=25, null=True)
-    role = models.CharField(max_length=25, choices=Roles.choices, default=Roles.WARD_USER)
+    role = models.CharField(max_length=25, choices=Roles.choices, default=Roles.OPERATOR)
     organization = models.ForeignKey(
         "branches.Branch",
         blank=True,

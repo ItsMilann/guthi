@@ -6,7 +6,7 @@ from django.conf.urls.static import static
 from rest_framework.documentation import include_docs_urls
 from utilities.exceptions import page_not_found, server_error_handler
 from users.api import viewsets as auth
-from branches import viewsets as nagarpalika
+from branches import viewsets as branches
 from templates.api import reports
 from .routers import router
 
@@ -19,10 +19,10 @@ urlpatterns = [
     path("api/v1/docs/", include_docs_urls(title="Project API Documentation")),
     path("api/v1/", include(router.urls)),
     path("api/v1/auth/jwt/create/", auth.ObtainTokenView.as_view()),
-    path("api/v1/active-fiscal-year/", nagarpalika.active_fiscal_year),
-    path("api/v1/dashboard-stats", nagarpalika.dashboard),
-    path("api/v1/settings-stats", nagarpalika.settings_stats),
-    path("api/v1/dashboard-graph/", nagarpalika.ito_admin_graph_api),
+    path("api/v1/active-fiscal-year/", branches.active_fiscal_year),
+    path("api/v1/dashboard-stats", branches.dashboard),
+    path("api/v1/settings-stats", branches.settings_stats),
+    path("api/v1/dashboard-graph/", branches.admin_graph_api),
     path("api/v1/report/stats/", reports.report_stats_api),
     path("api/v1/report/list/", reports.report_list_api),
 ]

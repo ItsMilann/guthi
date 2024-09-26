@@ -25,22 +25,10 @@ class UserManager(BaseUserManager):
 
 
 class ProfileManager(models.Manager):
-    def ito(self):
+    def admin(self):
         queryset = self.get_queryset()
-        return queryset.filter(user__role=Roles.ITO_ADMIN)
+        return queryset.filter(user__role=Roles.ADMIN)
 
-    def ward_user(self):
+    def operator(self):
         queryset = self.get_queryset()
-        return queryset.filter(user__role=Roles.WARD_USER)
-
-    def ward_admin(self):
-        queryset = self.get_queryset()
-        return queryset.filter(user__role=Roles.WARD_ADMIN)
-
-    def mayor(self):
-        queryset = self.get_queryset()
-        return queryset.filter(user__role=Roles.MAYOR)
-
-    def others(self):
-        queryset = self.get_queryset()
-        return queryset.exclude(user__role__in=[Roles.ITO_ADMIN, Roles.MAYOR])
+        return queryset.filter(user__role=Roles.OPERATOR)

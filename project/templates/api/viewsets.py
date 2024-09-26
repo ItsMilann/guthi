@@ -8,16 +8,14 @@ from django_filters.rest_framework.backends import DjangoFilterBackend
 from templates import models, filters
 from templates.utils import generate_issue_number
 from templates.api import serializers
-from templates import task, validators, services, selectors
+from templates import task, validators, services
 
-from users.response import (
-    CustomModelViewSet as ModelViewSet,
-    CustomResponse as Response,
-)
+from users.response import CustomModelViewSet, CustomResponse
+from users.constants import Roles
 from branches.models import FiscalYear
 
 
-class BaseViewSet(ModelViewSet):
+class BaseViewSet(CustomModelViewSet):
     queryset = models.Paper.objects.all()
     serializer_class = serializers.PaperSerializer
     permission_classes = [IsAuthenticated]
@@ -31,7 +29,7 @@ class BaseViewSet(ModelViewSet):
         raise NotAcceptable(_("User must belong to an organization."))
 
     def get_queryset(self):
-        if self.request.user.role != "ito_admin":
+        if self.request.user.role != Roles.ADMIN:
             qs = super().get_queryset()
             qs = qs.filter(created_by__organization=self._organization())
             return qs
@@ -81,7 +79,7 @@ class PaperViewSet(BaseViewSet):
             data, receivers, user=request.user, darta=print_
         )
         message = _("Paper forwarding in background")
-        return Response(data, message=message, status=201)
+        return CustomResponse(data, message=message, status=201)
 
     @action(["GET"], detail=False, url_path="darta")
     def list_darta_pending_paper(self, request, *args, **kwargs):
@@ -91,7 +89,7 @@ class PaperViewSet(BaseViewSet):
     @action(["GET"], detail=False)
     def sent(self, request, *args, **kwargs):
         queryset = self.get_queryset().exclude(hardcopy_preview=[])
-        if not request.user.role == "ito_admin":
+        if not request.user.role == Roles.ADMIN:
             organization = self._organization()
             queryset = queryset.filter(created_by__organization=organization)
         self.queryset = queryset
@@ -105,7 +103,7 @@ class PaperViewSet(BaseViewSet):
         serializer.is_valid(raise_exception=True)
         instance = serializer.save(paper=paper, forwarder=org)
         serializer = serializers.PaperForwardListSerializer(instance)
-        return Response(serializer.data, status=201)
+        return CustomResponse(serializer.data, status=201)
 
     @action(["POST"], detail=True, url_path="upload-hardcopy")
     def upload_hardcopy(self, request, *args, **kwargs):
@@ -137,7 +135,7 @@ class PaperViewSet(BaseViewSet):
             "created_at",
         )
         data = qs.values(*fields)
-        return Response(data, status=200)
+        return CustomResponse(data, status=200)
 
     @action(["POST"], detail=False, url_path="pin")
     def perform_pin(self, request, *args, **kwargs):
@@ -154,6 +152,6 @@ class PaperViewSet(BaseViewSet):
         return super().list(request)
 
 
-class FAQViewset(ModelViewSet):
+class FAQViewset(CustomModelViewSet):
     queryset = models.FAQ.objects.all()
     serializer_class = serializers.FAQSerializers

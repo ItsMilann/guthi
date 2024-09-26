@@ -87,7 +87,7 @@ def active_fiscal_year(request):
 
 @decorators.api_view(["GET"])
 @decorators.permission_classes([IsAuthenticated])
-def ito_admin_graph_api(request):
+def admin_graph_api(request):
     choice = request.query_params.get("choice", "category")
     data = {}
     return Response(data=data, message=f"{choice} wise graph data", status=200)
