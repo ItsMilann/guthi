@@ -4,7 +4,7 @@ from users import models
 
 
 @receiver(sender=models.User, signal=pre_save)
-def update_user_organization(sender, instance: models.User, created, *args, **kwargs):
+def update_user_organization(sender, instance: models.User, *args, **kwargs):
     if instance.department:
         instance.organization = instance.department.branch
 
