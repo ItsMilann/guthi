@@ -25,14 +25,29 @@ class Branch(models.Model):
     class Meta:
         ordering = ("name_en", "name_np")
 
+    def __create_dartachalani_department(self):
+        dep = Department()
+        dep.branch = self
+        dep.name_en = "Darta Chalani Sakha"
+        dep.is_dartachalani = True
+        dep.save()
+
     def save(self, *args, **kwargs):
         if not self.code:
             self.code = self.name_np
+        if self.pk is None:
+            super().save(*args, **kwargs)
+            self.__create_dartachalani_department()
+            return
         return super().save(*args, **kwargs)
-    
+        
+
 
 class Department(models.Model):
-    branch = models.ForeignKey(Branch, on_delete=models.CASCADE, related_name="branches")
+    branch = models.ForeignKey(
+        Branch, on_delete=models.CASCADE, related_name="branches"
+    )
+    is_dartachalani = models.BooleanField(default=False)
     name_np = models.CharField(blank=True, null=True, max_length=255)
     name_en = models.CharField(blank=True, null=True, max_length=255)
     alias = models.CharField(blank=True, null=True, max_length=255)
@@ -74,7 +89,9 @@ class Feature(models.Model):
     name = models.CharField(max_length=255, unique=True)
     enabled = models.BooleanField(default=False)
     description = models.CharField(max_length=255, default="")
-    entity = models.CharField(max_length=10, choices=FeatEntity.choices, default=FeatEntity.BE)
+    entity = models.CharField(
+        max_length=10, choices=FeatEntity.choices, default=FeatEntity.BE
+    )
 
     @classmethod
     def get(cls, name: str):

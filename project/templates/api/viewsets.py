@@ -69,23 +69,6 @@ class PaperViewSet(BaseViewSet):
         instance.issue_id = generate_issue_number(instance)
         instance.save(**kwargs)
 
-    @action(["POST"], detail=False, url_path="send")
-    def perform_send(self, request, *args, **kwargs):
-        data = request.data.copy()
-        receivers = request.data.get("receiver", [])
-        validators.validate_orgs_exist(receivers)
-        print_ = request.data.get("__save_and_print")
-        data = task.forward_to_multiple_organizations(
-            data, receivers, user=request.user, darta=print_
-        )
-        message = _("Paper forwarding in background")
-        return CustomResponse(data, message=message, status=201)
-
-    @action(["GET"], detail=False, url_path="darta")
-    def list_darta_pending_paper(self, request, *args, **kwargs):
-        self.queryset = self.get_queryset().exclude(darta_number=None)
-        return super().list(request)
-
     @action(["GET"], detail=False)
     def sent(self, request, *args, **kwargs):
         queryset = self.get_queryset().exclude(hardcopy_preview=[])
@@ -97,59 +80,15 @@ class PaperViewSet(BaseViewSet):
 
     @action(["POST"], detail=True)
     def forward(self, request, *args, **kwargs):
-        paper = self.get_object()
-        org = self._organization()
-        serializer = serializers.PaperForwardSerializer(data=request.data)
-        serializer.is_valid(raise_exception=True)
-        instance = serializer.save(paper=paper, forwarder=org)
-        serializer = serializers.PaperForwardListSerializer(instance)
-        return CustomResponse(serializer.data, status=201)
-
-    @action(["POST"], detail=True, url_path="upload-hardcopy")
-    def upload_hardcopy(self, request, *args, **kwargs):
-        """User prints preview of paper and uploads it here."""
-        instance = self.get_object()
-        file = request.data.get("file")
-        instance.hardcopy_preview = file
-        instance.save()
-        return super().retrieve(request, *args, **kwargs)
+        raise NotImplementedError
 
     @action(["GET"], detail=True, url_path="status")
     def settlement_status(self, request, *args, **kwargs):
-        obj = self.get_object()
-        qs = obj.forwared.filter(parent=None)
-        fields = (
-            "settled",
-            "forwarder_id",
-            "forwarder__name_en",
-            "forwarder__name_np",
-            "forwarder__fullname_en",
-            "forwarder__fullname_np",
-            "receiver_id",
-            "receiver__name_en",
-            "receiver__name_np",
-            "receiver__fullname_en",
-            "receiver__fullname_np",
-            "roll_number",
-            "settlement_remarks",
-            "created_at",
-        )
-        data = qs.values(*fields)
-        return CustomResponse(data, status=200)
-
-    @action(["POST"], detail=False, url_path="pin")
-    def perform_pin(self, request, *args, **kwargs):
-        """Pin papers, with received IDs"""
-        paper_ids = request.data.get("papers", [])
-        self.queryset = services.pin_multiple_sent_mails(paper_ids)
-        return super().list(request)
-
-    @action(["POST"], detail=False, url_path="unpin")
-    def perform_unpin(self, request, *args, **kwargs):
-        """Unpin papers, with received IDs"""
-        paper_ids = request.data.get("papers", [])
-        self.queryset = services.unpin_multiple_sent_mails(paper_ids)
-        return super().list(request)
+        raise NotImplementedError
+    
+    @action(["GET"], detail=True, url_path="inbox")
+    def inbox(self, request, *args, **kwargs):
+        ...
 
 
 class FAQViewset(CustomModelViewSet):

@@ -25,7 +25,6 @@ class PaperFilter(filters.FilterSet):
             "receiving_department",
             "receiving_department_id",
             "settlement_branch",
-            "settlement_branch_id",
             "start",
             "end",
             "chalani_number",
