@@ -3,7 +3,7 @@ from django.conf import settings
 from django.db import transaction
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 from rest_framework import serializers
-from branches.serializers import BranchSerializer
+from branches.serializers import BranchSerializer, DepartmentSerializer
 from users import models
 
 
@@ -29,7 +29,7 @@ class UserSerializer(serializers.ModelSerializer):
         user.set_password(password)
         user.save()
         return user
-    
+
     def update(self, instance, validated_data):
         if settings.FEATURES["PROTECT_EMAIL"]:
             validated_data.pop("email", None)
@@ -40,13 +40,17 @@ class UserSerializer(serializers.ModelSerializer):
             user.save()
         return instance
 
-    def _organization_info(self, organization):
-        serializer = BranchSerializer(organization)
+    def __branch_info(self, branch):
+        serializer = BranchSerializer(branch)
+        return serializer.data
+    def __department_info(self, department):
+        serializer = DepartmentSerializer(department)
         return serializer.data
 
     def to_representation(self, instance):
         data = super().to_representation(instance)
-        data["organization"] = self._organization_info(instance.organization)
+        data["branch"] = self.__branch_info(instance.organization)
+        data["department"] = self.__department_info(instance.department)
         return data
 
 
