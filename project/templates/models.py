@@ -59,7 +59,7 @@ class RelatedBranch(models.Model):
     paper = models.ForeignKey(
         Paper, on_delete=models.CASCADE, related_name="serialnumbers"
     )
-    organization = models.ForeignKey("branches.Department", on_delete=models.CASCADE)
+    department = models.ForeignKey("branches.Department", on_delete=models.CASCADE)
     serial_number = models.PositiveIntegerField()
     active = models.BooleanField(default=True)
 

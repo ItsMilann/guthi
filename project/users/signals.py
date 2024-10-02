@@ -1,6 +1,12 @@
-from django.db.models.signals import post_save
+from django.db.models.signals import post_save, pre_save
 from django.dispatch import receiver
 from users import models
+
+
+@receiver(sender=models.User, signal=pre_save)
+def __update_user_organization(sender, instance: models.User, created, *args, **kwargs):
+    if instance.department:
+        instance.organization = instance.department.branch
 
 
 @receiver(sender=models.User, signal=post_save)
