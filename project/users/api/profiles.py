@@ -1,9 +1,9 @@
-#pylint:disable=W0201
+# pylint:disable=W0201
 from rest_framework import decorators
 from rest_framework.permissions import IsAuthenticated
+from django_filters.rest_framework.backends import DjangoFilterBackend
 from users.response import CustomModelViewSet as ModelViewSet
-
-from users import models
+from users import models, filters
 from users.api import serializers
 
 
@@ -11,14 +11,8 @@ class ProfileViewSet(ModelViewSet):
     queryset = models.Profile.objects.all()
     serializer_class = serializers.ProfileSerializer
     permission_classes = [IsAuthenticated]
-
-    def get_queryset(self):
-        department = self.request.query_params.get("department", None)
-        qs = super().get_queryset()
-        if department:
-            qs = qs.filter(user__department=department)
-        return qs
-
+    filter_backends = [DjangoFilterBackend]
+    filterset_class = filters.ProfileFilter
 
     @decorators.action(["POST", "GET"], detail=False)
     def info(self, request, *args, **kwargs):
