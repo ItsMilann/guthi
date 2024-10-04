@@ -20,6 +20,7 @@ class UserSerializer(serializers.ModelSerializer):
             "password",
             "role",
             "organization",
+            "department"
         ]
         extra_kwargs = {"phone": {"required": False, "default": "NA"}}
 
