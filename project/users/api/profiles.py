@@ -3,8 +3,8 @@ from rest_framework import decorators
 from rest_framework.permissions import IsAuthenticated
 from django_filters.rest_framework.backends import DjangoFilterBackend
 from users.response import CustomModelViewSet as ModelViewSet
-from users import models, filters
 from users.api import serializers
+from users import models, filters
 
 
 class ProfileViewSet(ModelViewSet):
