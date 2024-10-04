@@ -12,6 +12,14 @@ class ProfileViewSet(ModelViewSet):
     serializer_class = serializers.ProfileSerializer
     permission_classes = [IsAuthenticated]
 
+    def get_queryset(self):
+        department = self.request.query_params.get("department", None)
+        qs = super().get_queryset()
+        if department:
+            qs = qs.filter(user__department=department)
+        return qs
+
+
     @decorators.action(["POST", "GET"], detail=False)
     def info(self, request, *args, **kwargs):
         instance, _ = models.Profile.objects.get_or_create(user=request.user)
