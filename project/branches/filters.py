@@ -53,4 +53,5 @@ class DepartmentFilter(filters.FilterSet):
             "phone_en",
             "phone_np",
             "email",
+            "branch",
         ]
