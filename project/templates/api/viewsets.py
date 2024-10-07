@@ -24,7 +24,7 @@ class PaperViewSet(CustomModelViewSet):
         return super().get_serializer_class()
 
     def get_queryset(self):
-        branch = getattr(self.request.user, "branch", None)
+        branch = getattr(self.request.user, "organization", None)
         qs = super().get_queryset()
         if branch is None:
             raise NotAcceptable("User must belong to a branch.")
