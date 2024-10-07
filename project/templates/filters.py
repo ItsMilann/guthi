@@ -23,7 +23,6 @@ class PaperFilter(filters.FilterSet):
             "sender",
             "subject",
             "receiving_department",
-            "receiving_department_id",
             "settlement_branch",
             "start",
             "end",

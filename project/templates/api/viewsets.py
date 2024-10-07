@@ -8,7 +8,7 @@ from django_filters.rest_framework.backends import DjangoFilterBackend
 from templates import models, filters
 from templates.utils import generate_issue_number
 from templates.api import serializers
-from users.response import CustomModelViewSet
+from users.response import CustomModelViewSet, CustomResponse
 from branches.models import FiscalYear
 
 
@@ -56,6 +56,19 @@ class PaperViewSet(CustomModelViewSet):
         paper_ids = related_deps.values_list("paper__id", flat=True)
         self.queryset = models.Paper.objects.filter(id__in=paper_ids)
         return super().list(request, *args, **kwargs)
+
+    @action(["POST"], detail=True)
+    def forward(self, request, *args, **kwargs):
+        paper = self.get_object()
+        receiving_department = request.data["receiving_department"]
+        related_branch = models.RelatedBranch()
+        related_branch.paper = paper
+        related_branch.department = receiving_department
+        related_branch.fiscal_year = paper.fiscal_year
+        related_branch.active = True
+        related_branch.save()
+        serializer = serializers.RelatedBranchSerializer(related_branch)
+        return CustomResponse(serializer.data, status=200)
 
 
 class FAQViewset(CustomModelViewSet):

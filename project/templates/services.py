@@ -1,5 +1,6 @@
 # pylint: disable=import-outside-toplevel
 from templates.api.serializers import PaperDocumentSerializer
+from branches import models
 
 
 def attach_document(request):
@@ -21,34 +22,15 @@ def clean_mob_number(phone):
         return f"+977{int(phone)}"
     return None
 
-
-def archive_multiple_papers(paper_ids: list[int]):
-    ...
-
-
-def read_multiple_papers(paper_ids: list[int]):
-    ...
-
-
-def unread_multiple_papers(paper_ids: list[int]):
-    ...
-
-
-def pin_multiple_papers(paper_ids: list[int]):
-    ...
-
-
-def unpin_multiple_papers(paper_ids: list[int]):
-    ...
-
-
-def pin_multiple_sent_mails(paper_ids: list[int]):
-    ...
-
-
-def unpin_multiple_sent_mails(paper_ids: list[int]):
-    ...
-
-
-def find_parents_and_update(instance, data: dict):
-    ...
+def get_serialnum(instance):
+    _branch = instance.__class__
+    if fiscalyear is None:
+        fiscalyear = models.FiscalYear.active()
+    try:
+        qs = _branch.objects.get(
+            organization=instance.department,
+            fiscalyear=instance.fiscalyear)
+        object_ = qs.latest("serial_number")
+        return object_.serial_number + 1
+    except _branch.DoesNotExist:
+        return 1

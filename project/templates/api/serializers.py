@@ -66,6 +66,12 @@ class PaperDocumentSerializer(serializers.ModelSerializer):
         fields = "__all__"
 
 
+class RelatedBranchSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = models.RelatedBranch
+        fields = "__all__"
+
+
 class FAQSerializers(serializers.ModelSerializer):
     class Meta:
         model = models.FAQ

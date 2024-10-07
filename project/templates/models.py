@@ -33,7 +33,6 @@ class Paper(models.Model):
     sender_phone = models.CharField(max_length=10, blank=True, null=True)
     address = models.CharField(max_length=255, blank=True, null=True)
     subject = models.CharField(max_length=255, blank=True, null=True)
-    receiving_department = models.ForeignKey("branches.Department", **BLANK_NULL)
     created_by = models.ForeignKey("users.User", **BLANK_NULL)
     chalani_number = models.CharField(max_length=255, blank=True, null=True)
     paper_date = models.CharField(max_length=10, blank=True)
@@ -45,35 +44,39 @@ class Paper(models.Model):
     class Meta:
         unique_together = ("serial_number", "branch", "fiscal_year")
         ordering = ("-id",)
-
+    def __get_serialnum(self):
+        qs = self.__class__.objects.filter(fiscal_year=self.fiscal_year)
+        qs = qs.filter(branch=self.branch)
+        if qs.exists():
+            return qs.latest("serial_number").serial_number + 1
+        return 1
+    
     def save(self, *args, **kwargs):
+        if self.pk is None:
+            self.serial_number = self.__get_serialnum()
         if not self.date:
             self.date = nepali_datetime.date.today().strftime("%Y-%m-%d")
-            self.received_date = nepali_datetime.date.today().strftime("%Y-%m-%d")
         return super().save()
 
 
 class RelatedBranch(models.Model):
     """branches over which a paper has been sent/forwarded"""
-
     paper = models.ForeignKey(
         Paper, on_delete=models.CASCADE, related_name="serialnumbers"
     )
+    fiscal_year = models.ForeignKey("branches.FiscalYear", on_delete=models.CASCADE)
     department = models.ForeignKey("branches.Department", on_delete=models.CASCADE)
     serial_number = models.PositiveIntegerField()
     active = models.BooleanField(default=True)
 
     def save(self, *args, **kwargs):
+        from templates import services
+
+        self.fiscal_year = self.paper.fiscal_year
         if self.active:
             self.paper.serialnumbers.update(active=False)
-        self.serial_number = self.__get_serial_number()
+        self.serial_number = services.get_serialnum(self)
         return super().save(*args, **kwargs)
-
-    def __get_serial_number(self):
-        qs = self.paper.serialnumbers.filter(organization=self.organization)
-        if not qs.exists():
-            return 1
-        return qs.latest("serial_number").serial_number + 1
 
 class PaperDocument(models.Model):
     paper = models.ForeignKey(Paper, on_delete=models.CASCADE)
