@@ -3,12 +3,11 @@ from templates import models
 
 
 class PaperSerializer(serializers.ModelSerializer):
-    extra = serializers.SerializerMethodField()
 
     class Meta:
         model = models.Paper
         fields = "__all__"
-        read_only_fields = ["fiscal_year"]
+        read_only_fields = ["fiscal_year", "branch", "serial_number"]
 
     def _get_documents(self, obj):
         qs = obj.documents.all()

@@ -39,6 +39,7 @@ class PaperViewSet(CustomModelViewSet):
     def perform_create(self, serializer):
         fiscal_year = FiscalYear.active()
         instance = serializer.save(
+            branch = self.request.user.organization,
             created_by=self.request.user,
             fiscal_year=fiscal_year,
             updated_by=self.request.user,
