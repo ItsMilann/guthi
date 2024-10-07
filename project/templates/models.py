@@ -67,6 +67,7 @@ class RelatedBranch(models.Model):
     fiscal_year = models.ForeignKey("branches.FiscalYear", on_delete=models.CASCADE)
     department = models.ForeignKey("branches.Department", on_delete=models.CASCADE)
     serial_number = models.PositiveIntegerField()
+    remarks = models.CharField(max_length=255, default="N/A")
     active = models.BooleanField(default=True)
 
     def save(self, *args, **kwargs):

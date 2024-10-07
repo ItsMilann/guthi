@@ -33,8 +33,8 @@ class PaperViewSet(CustomModelViewSet):
 
     def perform_create(self, serializer):
         fiscal_year = FiscalYear.active()
-        instance = serializer.save(
-            branch = self.request.user.organization,
+        serializer.save(
+            branch=self.request.user.organization,
             created_by=self.request.user,
             fiscal_year=fiscal_year,
         )
@@ -46,7 +46,9 @@ class PaperViewSet(CustomModelViewSet):
 
     @action(["GET"], detail=False)
     def inbox(self, request, *args, **kwargs):
-        related_deps = models.RelatedBranch.objects.filter(department=request.user.department)
+        related_deps = models.RelatedBranch.objects.filter(
+            department=request.user.department
+        )
         paper_ids = related_deps.values_list("paper__id", flat=True)
         self.queryset = models.Paper.objects.filter(id__in=paper_ids)
         return super().list(request, *args, **kwargs)
@@ -55,12 +57,16 @@ class PaperViewSet(CustomModelViewSet):
     def forward(self, request, *args, **kwargs):
         paper = self.get_object()
         receiving_department = request.data["receiving_department"]
+        remarks = request.data["remarks"]
         related_branch = models.RelatedBranch()
         related_branch.paper = paper
         related_branch.department = receiving_department
         related_branch.fiscal_year = paper.fiscal_year
         related_branch.active = True
+        related_branch.remarks = remarks
         related_branch.save()
+        paper.is_draft = False
+        paper.save()
         serializer = serializers.RelatedBranchSerializer(related_branch)
         return CustomResponse(serializer.data, status=200)
 
