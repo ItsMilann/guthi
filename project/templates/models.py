@@ -79,7 +79,7 @@ class RelatedBranch(models.Model):
         return super().save(*args, **kwargs)
 
 class PaperDocument(models.Model):
-    paper = models.ForeignKey(Paper, on_delete=models.CASCADE)
+    paper = models.ForeignKey(Paper, on_delete=models.CASCADE, related_name="documents")
     subject = models.CharField(max_length=255, default="untitled")
     receiving_department = models.CharField(max_length=255, blank=True, null=True)
     receiving_branch = models.CharField(max_length=255, blank=True, null=True)
