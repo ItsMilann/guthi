@@ -42,7 +42,6 @@ class PaperViewSet(CustomModelViewSet):
             branch = self.request.user.organization,
             created_by=self.request.user,
             fiscal_year=fiscal_year,
-            updated_by=self.request.user,
         )
         self._create_issue_id(instance)
 
