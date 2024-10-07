@@ -6,7 +6,6 @@ from rest_framework.decorators import action
 from django_filters.rest_framework.backends import DjangoFilterBackend
 
 from templates import models, filters
-from templates.utils import generate_issue_number
 from templates.api import serializers
 from users.response import CustomModelViewSet, CustomResponse
 from branches.models import FiscalYear
@@ -32,10 +31,6 @@ class PaperViewSet(CustomModelViewSet):
         qs = models.Paper.objects.filter(created_by__organization=branch)
         return qs
 
-    def _create_issue_id(self, instance, **kwargs):
-        instance.issue_id = generate_issue_number(instance)
-        instance.save(**kwargs)
-
     def perform_create(self, serializer):
         fiscal_year = FiscalYear.active()
         instance = serializer.save(
@@ -43,7 +38,6 @@ class PaperViewSet(CustomModelViewSet):
             created_by=self.request.user,
             fiscal_year=fiscal_year,
         )
-        self._create_issue_id(instance)
 
     def perform_update(self, serializer):
         instance = serializer.instance

@@ -195,12 +195,3 @@ def get_pdf_report(data, listing_data, date_string, ward_number, file_name=None)
     filename = fs.save(f"{file_name}.pdf", c)
     uploaded_file_url = fs.url(filename)
     return uploaded_file_url
-
-
-def generate_issue_number(paper):
-    count = paper.__class__.objects.filter(template = paper.template).count()
-    date = nepali_datetime.date.today()
-    month, day = date.month, date.day
-    fiscal_year = FiscalYear.active()
-    fy_text = "".join([t for t in fiscal_year.title if t.isalnum()])
-    return f"{fy_text}-{month:02d}-{day:02d}-{paper.id}-{count}"
